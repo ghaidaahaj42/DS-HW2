@@ -12,6 +12,13 @@ public class FibonacciHeap
     public HeapNode start;
     public int numberOfNodes;
 
+
+    public FibonacciHeap(){
+        this.min = null;
+        this.start = null;
+        this.numberOfNodes = 0;
+    }
+
     public FibonacciHeap(HeapNode min, HeapNode start, int numberOfTrees) {
         this.min = min;
         this.start = start;
@@ -76,6 +83,9 @@ public class FibonacciHeap
             node.setNext(start);
             this.setNumberOfNodes(this.getNumberOfNodes()+1);
         }
+        if(node.getKey()<this.getMin().getKey()){
+            this.setMin(node);
+        }
 
     	return node; // should be replaced by student code
     }
@@ -139,7 +149,8 @@ public class FibonacciHeap
     	int[] arr = new int[(int) Math.ceil(Math.log(this.numberOfNodes+1))];
         if(this.isEmpty()) return arr;
         HeapNode current=this.getStart();
-        while (current.getNext()!=null){
+        HeapNode first=this.getStart();
+        while (current.getNext()!=first){
             arr[current.getRank()]=arr[current.getRank()]+1;
         }
         return arr; //	 to be replaced by student code
@@ -164,7 +175,11 @@ public class FibonacciHeap
     * to reflect this change (for example, the cascading cuts procedure should be applied if needed).
     */
     public void decreaseKey(HeapNode x, int delta)
-    {    
+    {
+        HeapNode parent = x.getParent();
+        if(parent!=null && parent.getKey()<x.getKey()){
+//            this.cu
+        }
     	return; // should be replaced by student code
     }
 
@@ -174,7 +189,9 @@ public class FibonacciHeap
     * This function returns the current number of non-marked items in the heap
     */
     public int nonMarked() 
-    {    
+    {
+        int counter =0;
+
         return -232; // should be replaced by student code
     }
 
@@ -230,6 +247,20 @@ public class FibonacciHeap
         int[] arr = new int[100];
         return arr; // should be replaced by student code
     }
+
+    /**
+     *public void cut (HeapNode node,HeapNode parent)
+     *
+     * This function well cutt the link between the node and its father(parnet)
+     * and the node will be a new root
+     *
+     * @post: we will have a new subtree , its root is the node
+     */
+
+    public void cut(HeapNode node,HeapNode parnet){
+
+    }
+
     
    /**
     * public class HeapNode
@@ -317,4 +348,6 @@ public class FibonacciHeap
        }
 
    }
+
 }
+
