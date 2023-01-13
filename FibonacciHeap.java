@@ -177,11 +177,18 @@ public class FibonacciHeap
     public void decreaseKey(HeapNode x, int delta)
     {
         HeapNode parent = x.getParent();
-        if(parent!=null && parent.getKey()<x.getKey()){
-//            this.cu
+        if(parent.getKey()<=x.getKey()-delta){
+            x.setKey(x.getKey()-delta);
+            return;
+        }
+        else{
+            casading_cut(x,parent);
+
         }
     	return; // should be replaced by student code
     }
+
+
 
    /**
     * public int nonMarked() 
@@ -258,7 +265,46 @@ public class FibonacciHeap
      */
 
     public void cut(HeapNode node,HeapNode parnet){
+        node.setMark(false);
+        node.setParent(null);
+        if(node.getNext()==node){
+            parnet.setChild(null);
+        }else{
+            parnet.setChild(node.getNext());
+            node.getPrev().setNext(node.getNext());
+            node.getNext().setPrev(node.getPrev());
+            node.setPrev(null);
+            node.setNext(null);
+        }
+        insert_node(node);
+    }
 
+    public void insert_node(HeapNode node){
+        if(this.isEmpty()){
+            this.setMin(node);
+            this.setStart(node);
+            this.setNumberOfNodes(1);
+        }else{
+            node.setPrev(start.getPrev());
+            this.start.setPrev(node);
+            node.setNext(start);
+            this.setNumberOfNodes(this.getNumberOfNodes()+1);
+        }
+        if(node.getKey()<this.getMin().getKey()){
+            this.setMin(node);
+        }
+    }
+
+    public void casading_cut(HeapNode node,HeapNode parnet){
+        cut(node,parnet);
+        if(parnet.getParent()!=null){
+            if(!parnet.isMark()){
+                parnet.setMark(true);
+            }
+            else{
+                casading_cut(parnet,parnet.getParent());
+            }
+        }
     }
 
     
