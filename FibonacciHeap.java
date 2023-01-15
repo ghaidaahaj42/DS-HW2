@@ -24,7 +24,7 @@ public class FibonacciHeap
         this.min = min;
         this.first = start;
         this.numberOfNodes = numberOfNodes;
-        this.numberOfNodes = numOfMarked;
+        this.numOfMarked = numOfMarked;
     }
 
     public int getNumOfMarked() {
@@ -97,63 +97,141 @@ public class FibonacciHeap
     * Deletes the node containing the minimum key.
     *
     */
-    public void deleteMin()
-    {
-        if(this.getMin()==null) return;
-     	while( this.getMin().getChild()!=null){
-             this.cutThenInsert(this.getMin().getChild(),this.getMin());
+    public void deleteMin() {
+
+        if (this.getMin() == null) return;
+        // if the min have children
+        if (this.getMin().getChild() != null) {
+            HeapNode curr = this.getMin();
+            // if the min have no brothers
+            if (curr.getNext() == curr) {
+                this.setFirst(curr.getChild());
+//                this.setMin(curr.getChild());
+                curr.getChild().setParent(null);
+                curr.setChild(null);
+                this.numberOfNodes = numberOfNodes - 1;
+            } else {
+                // if the min have brothers
+                this.setFirst(curr.getChild());
+                curr.getPrev().setNext(curr.getChild());
+                HeapNode ch = curr.getChild().getNext();
+                while (ch != curr.getChild()) {
+                    ch = curr.getNext();
+                    ch.setParent(null);
+                }
+                curr.getNext().setPrev(ch);
+//                this.setMin(ch);
+                this.numberOfNodes = numberOfNodes - 1;
+            }
+
+            // if the min have no children
+        } else {
+            HeapNode curr = this.getMin();
+            // if the min have no brothers
+            if (curr.getNext() == curr) {
+                this.setFirst(null);
+                curr.setParent(null);
+                curr.setChild(null);
+//                this.setMin(null);
+                this.numberOfNodes = numberOfNodes - 1;
+                return;
+            } else {
+                // if the min have brothers
+                this.setFirst(curr.getNext());
+                curr.getPrev().setNext(curr.getNext());
+                curr.getNext().setPrev(curr.getPrev());
+//                this.setMin(curr.getPrev());
+                this.numberOfNodes = numberOfNodes - 1;
+            }
+
+
         }
-
-        this.getMin().getPrev().setNext(this.getMin().getNext());
-        this.getMin().getNext().setPrev(this.getMin().getPrev());
-        this.getMin().setChild(null);
-
-         if(this.getMin().getPrev()==this.getMin() && this.getMin().getNext()==this.getMin()){
-             this.setMin(null);
-             this.setNumberOfNodes(0);
-             this.setFirst(null);
-             this.setNumOfMarked(0);
-             this.cuts=0;
-         }else{
-             this.setMin(this.getMin().getNext());
-             linking();
-         }
-
-         this.setNumberOfNodes(this.getNumberOfNodes()-1);
+//        if(this.numberOfNodes==1){
+//            this.setMin(this.getFirst());
+//        }
+         if (!this.isEmpty() ) {
+            linking();
+        }
 
     }
 
     public void linking() {
-        int maxRank= (int)( Math.log(this.numberOfNodes)/Math.log(1.4404));
+        int maxRank= (int) (Math.ceil(Math.log(this.numberOfNodes)/Math.log(1.4404)));
         HeapNode [] heaps=new HeapNode[maxRank];
         for (int i = 0; i < heaps.length; i++) {
             heaps[i]=null;
         }
+
         HeapNode start =this.getFirst().getNext();
+        heaps[this.getFirst().getRank()]=this.getFirst();
 
         while (this.getFirst()!=start){
-            HeapNode current =this.getFirst().getNext();
+            HeapNode current =start;
             if(heaps[current.getRank()]==null){
                 heaps[current.getRank()]=current;
                 start=start.getNext();
                 continue;
             }else{
                 int index=current.getRank();
-                HeapNode neww=linkOnce(current,heaps[index]);
+                HeapNode afterLink=linkOnce(current,heaps[index]);
                 heaps[index]=null;
-//فلستتتتت منعملها الاحد ان شاء الله
+                while(index < heaps.length-1 && heaps[index+1]!=null){
+                    afterLink=linkOnce(afterLink,heaps[index+1]);
+                    index++;
+                }
+                heaps[index]=afterLink;
             }
         }
+        FibonacciHeap toreturn = new FibonacciHeap();
 
         for (HeapNode item:heaps) {
             if (item!=null){
-                this.insert_node(item);
+                toreturn.insert_node(item);
             }
         }
+        this.setFirst(toreturn.getFirst());
     }
 
-    public HeapNode linkOnce(HeapNode h1,HeapNode h2){
-        return null ;
+    public HeapNode linkOnce(HeapNode h1,HeapNode h2) {
+        if (h1.getKey() < h2.getKey()) {
+            //h1 and h2 have rank 0
+            if (h1.getRank() == 0) {
+                h1.setChild(h2);
+                h2.setParent(h1);
+                h2.setPrev(h2);
+                h2.setNext(h2);
+                h1.setRank(h1.getRank() + 1);
+                return h1;
+            } else {
+                //h1 and h2 have rank bigger than 0
+                h2.setNext(h1.getChild());
+                h2.setPrev(h1.getChild().getPrev());
+                h1.getChild().setPrev(h2);
+                h2.setParent(h1);
+                h1.setRank(h1.getRank() + 1);
+                return h1;
+            }
+        }
+        // h2>h1
+        else {
+            //h1 and h2 have rank 0
+            if (h2.getRank() == 0) {
+                h2.setChild(h1);
+                h1.setParent(h2);
+                h1.setPrev(h1);
+                h1.setNext(h1);
+                h2.setRank(h2.getRank() + 1);
+                return h2;
+            } else {
+                //h1 and h2 have rank bigger than 0
+                h1.setNext(h2.getChild());
+                h1.setPrev(h2.getChild().getPrev());
+                h2.getChild().setPrev(h1);
+                h1.setParent(h2);
+                h2.setRank(h2.getRank() + 1);
+                return h2;
+            }
+        }
     }
 
    /**
@@ -336,18 +414,30 @@ public class FibonacciHeap
 
     public void insert_node(HeapNode node){
         if(this.isEmpty()){
+
             this.setMin(node);
             this.setFirst(node);
             this.setNumberOfNodes(1);
-        }else{
+        }
+
+        else{
+
             node.setNext(this.getFirst());
             node.setPrev(this.getFirst().getPrev());
+
+            this.getFirst().getPrev().setNext(node);
             this.getFirst().setPrev(node);
+
+
             this.setNumberOfNodes(this.getNumberOfNodes()+1);
-            this.setFirst(node);
-            if(this.getNumberOfNodes()==2){
-                this.getMin().setNext(node);
-            }
+//            this.setFirst(node);
+//            if(this.getNumberOfNodes()==2){
+//                if(this.getFirst().getKey()<this.getFirst().getNext().getKey()){
+//                    this.setMin(this.getFirst());
+//                }else{
+//                    this.setMin(this.getFirst().getNext());
+//                }
+//            }
         }
         if(node.getKey()<this.getMin().getKey()){
             this.setMin(node);
