@@ -153,6 +153,16 @@ public class FibonacciHeap
             linking();
         }
 
+         //setting the Min
+         this.setMin(this.getFirst());
+
+         HeapNode second = this.getFirst().getNext();
+         while(this.getFirst() != second){
+             if(second.getKey()<this.getFirst().getKey()){
+                 this.setMin(second);
+             }
+         }
+
     }
 
     public void linking() {
@@ -162,24 +172,27 @@ public class FibonacciHeap
             heaps[i]=null;
         }
 
-        HeapNode start =this.getFirst().getNext();
+        HeapNode second =this.getFirst().getNext();
         heaps[this.getFirst().getRank()]=this.getFirst();
 
-        while (this.getFirst()!=start){
-            HeapNode current =start;
+        while (this.getFirst()!=second){
+            HeapNode current =second;
             if(heaps[current.getRank()]==null){
                 heaps[current.getRank()]=current;
-                start=start.getNext();
+                second=second.getNext();
                 continue;
             }else{
                 int index=current.getRank();
+                second=second.getNext();
                 HeapNode afterLink=linkOnce(current,heaps[index]);
                 heaps[index]=null;
                 while(index < heaps.length-1 && heaps[index+1]!=null){
                     afterLink=linkOnce(afterLink,heaps[index+1]);
+                    heaps[afterLink.getRank()-1]=null;
                     index++;
                 }
-                heaps[index]=afterLink;
+                heaps[afterLink.getRank()]=afterLink;
+
             }
         }
         FibonacciHeap toreturn = new FibonacciHeap();
@@ -193,7 +206,16 @@ public class FibonacciHeap
     }
 
     public HeapNode linkOnce(HeapNode h1,HeapNode h2) {
-        if (h1.getKey() < h2.getKey()) {
+        if (h1.getKey() > h2.getKey()){
+            HeapNode tmp = h2;
+            h2=h1;
+            h1 = tmp;
+        }
+//        if (h1.getKey() < h2.getKey()) {
+
+            h2.getPrev().setNext(h2.getNext());
+            h2.getNext().setPrev(h2.getPrev());
+
             //h1 and h2 have rank 0
             if (h1.getRank() == 0) {
                 h1.setChild(h2);
@@ -204,34 +226,56 @@ public class FibonacciHeap
                 return h1;
             } else {
                 //h1 and h2 have rank bigger than 0
+                HeapNode h1_Child_Child = h1.getChild().getChild();
+                HeapNode h2_Child = h2.getChild();
+
                 h2.setNext(h1.getChild());
                 h2.setPrev(h1.getChild().getPrev());
+                h1.getChild().getPrev().setNext(h2);
                 h1.getChild().setPrev(h2);
+
+                /// if h1.rank == 1 && h2.rank ==1
+                if(h1.getChild().getNext()==h1.getChild()){
+                    h1.getChild().setNext(h2);
+                }
+                h1.setChild(h2);
                 h2.setParent(h1);
+//                HeapNode h1_Child_Child = h1.getChild().getChild();
+//                HeapNode h2_Child = h2.getChild();
+                while(h1_Child_Child!=null && h2_Child!=null){
+                    HeapNode tmp = h2_Child.getPrev();
+                    h2_Child.getPrev().setNext(h1_Child_Child);
+                    h2_Child.setPrev(h1_Child_Child.getPrev());
+                    h1_Child_Child.getPrev().setNext(h2_Child);
+                    h1_Child_Child.setPrev(tmp);
+
+                    h1_Child_Child = h1_Child_Child.getChild();
+                    h2_Child = h2_Child.getChild();
+                }
                 h1.setRank(h1.getRank() + 1);
                 return h1;
             }
-        }
+//        }
         // h2>h1
-        else {
-            //h1 and h2 have rank 0
-            if (h2.getRank() == 0) {
-                h2.setChild(h1);
-                h1.setParent(h2);
-                h1.setPrev(h1);
-                h1.setNext(h1);
-                h2.setRank(h2.getRank() + 1);
-                return h2;
-            } else {
-                //h1 and h2 have rank bigger than 0
-                h1.setNext(h2.getChild());
-                h1.setPrev(h2.getChild().getPrev());
-                h2.getChild().setPrev(h1);
-                h1.setParent(h2);
-                h2.setRank(h2.getRank() + 1);
-                return h2;
-            }
-        }
+//        else {
+//            //h1 and h2 have rank 0
+//            if (h2.getRank() == 0) {
+//                h2.setChild(h1);
+//                h1.setParent(h2);
+//                h1.setPrev(h1);
+//                h1.setNext(h1);
+//                h2.setRank(h2.getRank() + 1);
+//                return h2;
+//            } else {
+//                //h1 and h2 have rank bigger than 0
+//                h1.setNext(h2.getChild());
+//                h1.setPrev(h2.getChild().getPrev());
+//                h2.getChild().setPrev(h1);
+//                h1.setParent(h2);
+//                h2.setRank(h2.getRank() + 1);
+//                return h2;
+//            }
+//        }
     }
 
    /**

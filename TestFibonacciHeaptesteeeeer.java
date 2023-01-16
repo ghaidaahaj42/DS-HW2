@@ -44,6 +44,7 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import java.util.ArrayList;
 import java.util.TreeSet;
 import java.util.Map.Entry;
+import java.util.stream.Stream;
 
 class Heaptesteeeeer {
     private TreeSet<Integer> set;
