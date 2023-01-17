@@ -1,1 +1,11 @@
-(empty)
+╮
+╰── ╭────────────────╮
+    │ Key: 0         │
+    ├────────────────┤
+    │ Rank: 0        │
+    │ Marked: false  │
+    │ Parent: (null) │
+    │ Next: 0        │
+    │ Prev: 0        │
+    │ Child: (null)  │
+    ╰────────────────╯

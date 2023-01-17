@@ -1107,7 +1107,8 @@ public class TestFibonacciHeaptesteeeeer {
         testInsertion(heap, 1, 2, 3);
 
         assertEquals(3, heap.potential());
-//        assertEquals(0, FibonacciHeap.totalCuts() - cuts);
+
+        assertEquals(0, FibonacciHeap.totalCuts() - cuts);
         assertEquals(0, FibonacciHeap.totalLinks() - links);
         assertTrue(Arrays.equals(new int[] { 3 }, heap.countersRep()));
     }
@@ -1976,16 +1977,11 @@ public class TestFibonacciHeaptesteeeeer {
         }
     }
 
-    public static void main(String[]args){
-        FibonacciHeap h = new FibonacciHeap();
-        for (int i=0;i<9;i++){
-            h.insert(i);
-        }
-
-        h.deleteMin();
-        heapPrinter.print(h,false);
-
-    }
+//    public static void main(String[]args){
+////        test1
+//
+//
+//    }
 
 
 
