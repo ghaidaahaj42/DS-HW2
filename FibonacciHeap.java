@@ -12,6 +12,8 @@ public class FibonacciHeap
     public int numOfMarked;
     public static int cuts;
 
+    private static int num_links;
+
     public FibonacciHeap(){
         this.min = null;
         this.first = null;
@@ -98,7 +100,6 @@ public class FibonacciHeap
     *
     */
     public void deleteMin() {
-
         if (this.getMin() == null) return;
         // if the min have children
         if (this.getMin().getChild() != null) {
@@ -184,9 +185,11 @@ public class FibonacciHeap
                 int index=current.getRank();
                 second=second.getNext();
                 HeapNode afterLink=linkOnce(current,heaps[index]);
+                num_links +=1;
                 heaps[index]=null;
                 while(index < heaps.length-1 && heaps[index+1]!=null){
                     afterLink=linkOnce(afterLink,heaps[index+1]);
+                    num_links +=1;
                     heaps[afterLink.getRank()-1]=null;
                     index++;
                 }
@@ -202,6 +205,7 @@ public class FibonacciHeap
             }
         }
         this.setFirst(toreturn.getFirst());
+
     }
 
     public HeapNode linkOnce(HeapNode h1,HeapNode h2) {
@@ -402,8 +406,9 @@ public class FibonacciHeap
     * tree which has larger value in its root under the other tree.
     */
     public static int totalLinks()
-    {    
-    	return -345; // should be replaced by student code
+    {
+
+    	return num_links; // should be replaced by student code
     }
 
    /**
