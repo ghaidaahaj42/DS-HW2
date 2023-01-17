@@ -486,6 +486,7 @@ public class FibonacciHeap
 
 
     public void insert_node(HeapNode node){
+        System.out.println(node.key);
         this.numberOfTrees++;
         if(this.isEmpty()){
             this.setMin(node);
