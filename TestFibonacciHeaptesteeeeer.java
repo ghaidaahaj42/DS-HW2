@@ -1974,16 +1974,10 @@ public class TestFibonacciHeaptesteeeeer {
             node = node.getNext();
         }
     }
-
+//
 //    public static void main(String[]args){
 //        FibonacciHeap h = new FibonacciHeap();
-//        h.insert(55);
-//        h.insert(255);
-//        h.insert(2);
-//        h.deleteMin();
-//      //  heapPrinter.print(h,false);
-////        HeapPrinter p = new HeapPrinter(System.out);
-//      print(h);
+//
 //    }
 
 

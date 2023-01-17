@@ -358,6 +358,7 @@ public class FibonacciHeap
      * It is assumed that x indeed belongs to the heap.
      *
      */
+
     public void delete(HeapNode x)
     {
         this.decreaseKey(x,Integer.MIN_VALUE-x.getKey());
