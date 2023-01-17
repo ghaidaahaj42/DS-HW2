@@ -1981,6 +1981,7 @@ public class TestFibonacciHeaptesteeeeer {
         for (int i=0;i<9;i++){
             h.insert(i);
         }
+
         h.deleteMin();
         heapPrinter.print(h,false);
 

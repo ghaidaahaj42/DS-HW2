@@ -146,9 +146,7 @@ public class FibonacciHeap
 
 
         }
-//        if(this.numberOfNodes==1){
-//            this.setMin(this.getFirst());
-//        }
+
          if (!this.isEmpty() ) {
             linking();
         }
@@ -161,6 +159,7 @@ public class FibonacciHeap
              if(second.getKey()<this.getFirst().getKey()){
                  this.setMin(second);
              }
+             second = second.getNext();
          }
 
     }
@@ -458,14 +457,16 @@ public class FibonacciHeap
 
     public void insert_node(HeapNode node){
         if(this.isEmpty()){
-
             this.setMin(node);
             this.setFirst(node);
+            this.getFirst().setNext(this.getFirst());
+            this.getFirst().setPrev(this.getFirst());
             this.setNumberOfNodes(1);
         }
 
         else{
 
+            HeapNode tmp = this.getFirst().getPrev();
             node.setNext(this.getFirst());
             node.setPrev(this.getFirst().getPrev());
 
