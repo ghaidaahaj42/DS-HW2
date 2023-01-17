@@ -347,7 +347,7 @@ public class FibonacciHeap
             arr[current.getRank()]=arr[current.getRank()]+1;
             current=current.getNext();
         }
-
+        System.out.println(6);
         return Arrays.copyOfRange(arr,0,lasti+1); //	 to be replaced by student code
     }
 
