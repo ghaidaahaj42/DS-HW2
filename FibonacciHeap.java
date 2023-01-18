@@ -240,8 +240,8 @@ public class FibonacciHeap
             return h1;
         } else {
             //h1 and h2 have rank bigger than 0
-            HeapNode h1_Child_Child = h1.getChild().getChild();
-            HeapNode h2_Child = h2.getChild();
+//            HeapNode h1_Child_Child = h1.getChild().getChild();
+//            HeapNode h2_Child = h2.getChild();
 
             h2.setNext(h1.getChild());
             h2.setPrev(h1.getChild().getPrev());
@@ -256,16 +256,16 @@ public class FibonacciHeap
             h2.setParent(h1);
 //                HeapNode h1_Child_Child = h1.getChild().getChild();
 //                HeapNode h2_Child = h2.getChild();
-            while(h1_Child_Child!=null && h2_Child!=null){
-                HeapNode tmp = h2_Child.getPrev();
-                h2_Child.getPrev().setNext(h1_Child_Child);
-                h2_Child.setPrev(h1_Child_Child.getPrev());
-                h1_Child_Child.getPrev().setNext(h2_Child);
-                h1_Child_Child.setPrev(tmp);
-
-                h1_Child_Child = h1_Child_Child.getChild();
-                h2_Child = h2_Child.getChild();
-            }
+//            while(h1_Child_Child!=null && h2_Child!=null){
+//                HeapNode tmp = h2_Child.getPrev();
+//                h2_Child.getPrev().setNext(h1_Child_Child);
+//                h2_Child.setPrev(h1_Child_Child.getPrev());
+//                h1_Child_Child.getPrev().setNext(h2_Child);
+//                h1_Child_Child.setPrev(tmp);
+//
+//                h1_Child_Child = h1_Child_Child.getChild();
+//                h2_Child = h2_Child.getChild();
+//            }
             h1.setRank(h1.getRank() + 1);
             return h1;
         }
@@ -312,7 +312,30 @@ public class FibonacciHeap
      */
     public void meld (FibonacciHeap heap2)
     {
-        return; // should be replaced by student code
+        if(this.isEmpty()){
+            this.setMin(heap2.getMin());
+            this.setFirst(heap2.getFirst());
+            this.setNumberOfNodes(heap2.getNumberOfNodes());
+            this.setNumOfMarked(heap2.getNumOfMarked());
+            this.numberOfTrees=heap2.numberOfTrees;
+            this.cuts=heap2.cuts;
+            this.links=heap2.links;
+        }
+        if(heap2.isEmpty()){
+            return;
+        }
+        HeapNode tmp = heap2.getFirst().getPrev();
+        heap2.getFirst().getPrev().setNext(this.getFirst());
+        heap2.getFirst().setPrev(this.getFirst().getPrev());
+        this.getFirst().getPrev().setNext(heap2.getFirst());
+        this.getFirst().setPrev(tmp);
+
+        this.numberOfTrees+=heap2.numberOfTrees;
+        this.numOfMarked+=heap2.numOfMarked;
+        this.numberOfNodes+=heap2.numberOfNodes;
+        if(heap2.getMin().getKey()<this.getMin().getKey()){
+            this.setMin(heap2.getMin());
+        }
     }
 
     /**
@@ -375,15 +398,23 @@ public class FibonacciHeap
     public void decreaseKey(HeapNode x, int delta)
     {
         HeapNode parent = x.getParent();
-        if(parent.getKey()<=x.getKey()-delta){
-            x.setKey(x.getKey()-delta);
-            return;
-        }
-        else{
-            casading_cut(x,parent);
-            if(x.getKey()<this.getMin().getKey()){
-                this.setMin(x);
+        if(parent!=null){
+            if(parent.getKey()<=x.getKey()-delta){
+                x.setKey(x.getKey()-delta);
+                return;
             }
+            else{
+                x.setKey(x.getKey()-delta);
+                casading_cut(x,parent);
+                if(x.getKey()<this.getMin().getKey()){
+                    this.setMin(x);
+                }
+            }
+        }
+        else {
+            x.setKey(x.getKey()-delta);
+            if(x.getKey()<this.getMin().getKey()){
+                this.setMin(x);}
         }
         return; // should be replaced by student code
     }
@@ -455,7 +486,19 @@ public class FibonacciHeap
      */
     public static int[] kMin(FibonacciHeap H, int k)
     {
-        int[] arr = new int[100];
+
+        int[] arr = new int[k];
+        if(k==0) return arr;
+        if (H.isEmpty()) return arr;
+        FibonacciHeap current = new FibonacciHeap();
+        HeapNode node = H.getMin();
+        arr[0]=H.getMin().getKey();
+
+        int i=1;
+        while (i<k){
+            H.insert_node(node.getChild());
+            i++;
+        }
         return arr; // should be replaced by student code
     }
 
@@ -481,9 +524,6 @@ public class FibonacciHeap
         parnet.setRank(parnet.getRank()-1);
         insert_node(node);
     }
-
-
-
 
     public void insert_node(HeapNode node){
         System.out.println(node.key);
@@ -552,6 +592,7 @@ public class FibonacciHeap
         public HeapNode child;
         public int rank;
         boolean mark;
+        HeapNode index;
 
         public HeapNode(int key) {
 

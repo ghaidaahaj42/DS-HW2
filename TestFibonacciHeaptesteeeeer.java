@@ -32,6 +32,7 @@ import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -45,10 +46,10 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 import java.util.Map.Entry;
 
-class Heaptesteeeeer {
+class Heap {
     private TreeSet<Integer> set;
 
-    Heaptesteeeeer() {
+    Heap() {
         this.set = new TreeSet<>();
     }
 
@@ -245,12 +246,10 @@ class HeapPrinter {
 
 @TestMethodOrder(OrderAnnotation.class)
 public class TestFibonacciHeaptesteeeeer {
-
-
     static HeapPrinter heapPrinter = new HeapPrinter(System.out);
 
     FibonacciHeap heap = new FibonacciHeap();
-    Heaptesteeeeer heaptesteeeeerModel;
+    Heap heapModel;
     boolean uniqueValues = false;
 
 
@@ -476,7 +475,7 @@ public class TestFibonacciHeaptesteeeeer {
     @BeforeEach
     void beforeEachTest(TestInfo testInfo) {
         this.heap = new FibonacciHeap();
-        this.heaptesteeeeerModel = new Heaptesteeeeer();
+        this.heapModel = new Heap();
         this.uniqueValues = !testInfo.getTags().contains("DuplicateValues");
     }
 
@@ -690,7 +689,7 @@ public class TestFibonacciHeaptesteeeeer {
     Map<Integer, FibonacciHeap.HeapNode> addKeys(int start) {
         Map<Integer, FibonacciHeap.HeapNode> nodes = this.testInsertion(heap, IntStream.rangeClosed(start, start + 999)::iterator);
         for (int i = 0; i < 1000; i++) {//@@@@@@@ i<1000 @@@@@
-            heaptesteeeeerModel.insert(start + i);
+            heapModel.insert(start + i);
         }
         return nodes;
     }
@@ -698,7 +697,7 @@ public class TestFibonacciHeaptesteeeeer {
     Map<Integer, FibonacciHeap.HeapNode> addKeysReverse(int start) {
         Map<Integer, FibonacciHeap.HeapNode> nodes = testInsertionReverse(heap, start);
         for (int i = 999; i >= 0; i--) {
-            heaptesteeeeerModel.insert(start + i);
+            heapModel.insert(start + i);
         }
         return nodes;
     }
@@ -729,10 +728,10 @@ public class TestFibonacciHeaptesteeeeer {
     void testInOrderInsert() {
         // test1
         addKeys(0);
-        while (!heaptesteeeeerModel.isEmpty()) {
-            assertEquals(heaptesteeeeerModel.findMin(),  heap.findMin().getKey());
-            assertEquals(heaptesteeeeerModel.size(), heap.size());
-            heaptesteeeeerModel.deleteMin();
+        while (!heapModel.isEmpty()) {
+            assertEquals(heapModel.findMin(),  heap.findMin().getKey());
+            assertEquals(heapModel.size(), heap.size());
+            heapModel.deleteMin();
             heap.deleteMin();
             assertValidHeap(heap);
         }
@@ -745,10 +744,10 @@ public class TestFibonacciHeaptesteeeeer {
     void testReverseOrderInsert() {
         // test2
         addKeysReverse(0);
-        while (!heaptesteeeeerModel.isEmpty()) {
-            assertEquals(heaptesteeeeerModel.findMin(),  heap.findMin().getKey());
-            assertEquals(heaptesteeeeerModel.size(), heap.size());
-            heaptesteeeeerModel.deleteMin();
+        while (!heapModel.isEmpty()) {
+            assertEquals(heapModel.findMin(),  heap.findMin().getKey());
+            assertEquals(heapModel.size(), heap.size());
+            heapModel.deleteMin();
             heap.deleteMin();
             assertValidHeap(heap);
         }
@@ -764,10 +763,10 @@ public class TestFibonacciHeaptesteeeeer {
         addKeys(0);
         addKeysReverse(4000);
         addKeys(2000);
-        while (!heaptesteeeeerModel.isEmpty()) {
-            assertEquals(heaptesteeeeerModel.findMin(),  heap.findMin().getKey());
-            assertEquals(heaptesteeeeerModel.size(), heap.size());
-            heaptesteeeeerModel.deleteMin();
+        while (!heapModel.isEmpty()) {
+            assertEquals(heapModel.findMin(),  heap.findMin().getKey());
+            assertEquals(heapModel.size(), heap.size());
+            heapModel.deleteMin();
             heap.deleteMin();
             assertValidHeap(heap);
         }
@@ -784,9 +783,9 @@ public class TestFibonacciHeaptesteeeeer {
         addKeys(2000);
 
         for (int i = 0; i < 1000; i++) {
-            assertEquals(heaptesteeeeerModel.findMin(),  heap.findMin().getKey());
-            assertEquals(heaptesteeeeerModel.size(), heap.size());
-            heaptesteeeeerModel.deleteMin();
+            assertEquals(heapModel.findMin(),  heap.findMin().getKey());
+            assertEquals(heapModel.size(), heap.size());
+            heapModel.deleteMin();
             heap.deleteMin();
         }
 
@@ -794,9 +793,9 @@ public class TestFibonacciHeaptesteeeeer {
         addKeysReverse(8000);
         addKeys(10000);
 
-        while (!heaptesteeeeerModel.isEmpty()) {
-            assertEquals(heaptesteeeeerModel.findMin(),  heap.findMin().getKey());
-            heaptesteeeeerModel.deleteMin();
+        while (!heapModel.isEmpty()) {
+            assertEquals(heapModel.findMin(),  heap.findMin().getKey());
+            heapModel.deleteMin();
             heap.deleteMin();
             assertValidHeap(heap);
         }
@@ -862,17 +861,17 @@ public class TestFibonacciHeaptesteeeeer {
         Map<Integer, FibonacciHeap.HeapNode> nodes = addKeys(2000);
 
         for (int i = 2000; i < 2500; i++) {
-            assertEquals(heaptesteeeeerModel.findMin(),  heap.findMin().getKey());
-            assertEquals(heaptesteeeeerModel.size(), heap.size());
-            heaptesteeeeerModel.delete(i);
+            assertEquals(heapModel.findMin(),  heap.findMin().getKey());
+            assertEquals(heapModel.size(), heap.size());
+            heapModel.delete(i);
             heap.delete(nodes.get(i));
             assertValidHeap(heap);
         }
 
-        while (!heaptesteeeeerModel.isEmpty()) {
-            assertEquals(heaptesteeeeerModel.findMin(),  heap.findMin().getKey());
-            assertEquals(heaptesteeeeerModel.size(), heap.size());
-            heaptesteeeeerModel.deleteMin();
+        while (!heapModel.isEmpty()) {
+            assertEquals(heapModel.findMin(),  heap.findMin().getKey());
+            assertEquals(heapModel.size(), heap.size());
+            heapModel.deleteMin();
             heap.deleteMin();
             assertValidHeap(heap);
         }
@@ -890,17 +889,17 @@ public class TestFibonacciHeaptesteeeeer {
         Map<Integer, FibonacciHeap.HeapNode> nodes = addKeys(2000);
 
         for (int i = 2000; i < 2500; i++) {
-            assertEquals(heaptesteeeeerModel.findMin(),  heap.findMin().getKey());
-            assertEquals(heaptesteeeeerModel.size(), heap.size());
-            heaptesteeeeerModel.delete(i);
+            assertEquals(heapModel.findMin(),  heap.findMin().getKey());
+            assertEquals(heapModel.size(), heap.size());
+            heapModel.delete(i);
             heap.delete(nodes.get(i));
             assertValidHeap(heap);
         }
 
-        while (!heaptesteeeeerModel.isEmpty()) {
-            assertEquals(heaptesteeeeerModel.findMin(),  heap.findMin().getKey());
-            assertEquals(heaptesteeeeerModel.size(), heap.size());
-            heaptesteeeeerModel.deleteMin();
+        while (!heapModel.isEmpty()) {
+            assertEquals(heapModel.findMin(),  heap.findMin().getKey());
+            assertEquals(heapModel.size(), heap.size());
+            heapModel.deleteMin();
             heap.deleteMin();
             assertValidHeap(heap);
         }
@@ -918,17 +917,17 @@ public class TestFibonacciHeaptesteeeeer {
         Map<Integer, FibonacciHeap.HeapNode> nodes = addKeys(2000);
 
         for (int i = 2700; i > 2200; i--) {
-            assertEquals(heaptesteeeeerModel.findMin(),  heap.findMin().getKey());
-            assertEquals(heaptesteeeeerModel.size(), heap.size());
-            heaptesteeeeerModel.delete(i);
+            assertEquals(heapModel.findMin(),  heap.findMin().getKey());
+            assertEquals(heapModel.size(), heap.size());
+            heapModel.delete(i);
             heap.delete(nodes.get(i));
             assertValidHeap(heap);
         }
 
-        while (!heaptesteeeeerModel.isEmpty()) {
-            assertEquals(heaptesteeeeerModel.findMin(),  heap.findMin().getKey());
-            assertEquals(heaptesteeeeerModel.size(), heap.size());
-            heaptesteeeeerModel.deleteMin();
+        while (!heapModel.isEmpty()) {
+            assertEquals(heapModel.findMin(),  heap.findMin().getKey());
+            assertEquals(heapModel.size(), heap.size());
+            heapModel.deleteMin();
             heap.deleteMin();
             assertValidHeap(heap);
         }
@@ -945,23 +944,23 @@ public class TestFibonacciHeaptesteeeeer {
 
         Map<Integer, FibonacciHeap.HeapNode> nodes = addKeys(2000);
 
-        heaptesteeeeerModel.deleteMin();
+        heapModel.deleteMin();
         heap.deleteMin();
 
         assertValidHeap(heap);
 
         for (int i = 2700; i > 2200; i--) {
-            assertEquals(heaptesteeeeerModel.findMin(),  heap.findMin().getKey());
-            assertEquals(heaptesteeeeerModel.size(), heap.size());
-            heaptesteeeeerModel.delete(i);
+            assertEquals(heapModel.findMin(),  heap.findMin().getKey());
+            assertEquals(heapModel.size(), heap.size());
+            heapModel.delete(i);
             heap.delete(nodes.get(i));
             assertValidHeap(heap);
         }
 
-        while (!heaptesteeeeerModel.isEmpty()) {
-            assertEquals(heaptesteeeeerModel.findMin(),  heap.findMin().getKey());
-            assertEquals(heaptesteeeeerModel.size(), heap.size());
-            heaptesteeeeerModel.deleteMin();
+        while (!heapModel.isEmpty()) {
+            assertEquals(heapModel.findMin(),  heap.findMin().getKey());
+            assertEquals(heapModel.size(), heap.size());
+            heapModel.deleteMin();
             heap.deleteMin();
             assertValidHeap(heap);
         }
@@ -1974,12 +1973,35 @@ public class TestFibonacciHeaptesteeeeer {
             node = node.getNext();
         }
     }
-//
-//    public static void main(String[]args){
-//        FibonacciHeap h = new FibonacciHeap();
-//
-//    }
+
+    public static void main(String[]args){
+        FibonacciHeap h1 = new FibonacciHeap();
+        for (int i = 0; i <5 ; i++) {
+            h1.insert(i);
+        }
+        heapPrinter.print(h1,false);
+        FibonacciHeap h2 = new FibonacciHeap();
+        for (int i = 5; i <10 ; i++) {
+            h2.insert(i);
+        }
+        h1.meld(h2);
+        FibonacciHeap.HeapNode x = new FibonacciHeap.HeapNode(44);
+        h1.insert_node(x);
+        h1.decreaseKey(x,55);
+        System.out.println(h1.getMin().getKey());
+        h1.deleteMin();
+        FibonacciHeap.HeapNode y = h1.getMin().getChild().getChild();
+        h1.decreaseKey(y,1);
+        heapPrinter.print(h1,false);
+
+        FibonacciHeap h3 = new FibonacciHeap();
+        for (int i = 55; i <60 ; i++) {
+            h3.insert(i);
+        }
+        h1.meld(h3);
+        heapPrinter.print(h1,false);
 
 
 
+    }
 }
