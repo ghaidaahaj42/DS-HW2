@@ -1975,31 +1975,41 @@ public class TestFibonacciHeaptesteeeeer {
     }
 
     public static void main(String[]args){
-        FibonacciHeap h1 = new FibonacciHeap();
-        for (int i = 0; i <5 ; i++) {
-            h1.insert(i);
-        }
-        heapPrinter.print(h1,false);
-        FibonacciHeap h2 = new FibonacciHeap();
-        for (int i = 5; i <10 ; i++) {
-            h2.insert(i);
-        }
-        h1.meld(h2);
-        FibonacciHeap.HeapNode x = new FibonacciHeap.HeapNode(44);
-        h1.insert_node(x);
-        h1.decreaseKey(x,55);
-        System.out.println(h1.getMin().getKey());
-        h1.deleteMin();
-        FibonacciHeap.HeapNode y = h1.getMin().getChild().getChild();
-        h1.decreaseKey(y,1);
-        heapPrinter.print(h1,false);
+//        FibonacciHeap h1 = new FibonacciHeap();
+//        for (int i = 0; i <5 ; i++) {
+//            h1.insert(i);
+//        }
+//        heapPrinter.print(h1,false);
+//        FibonacciHeap h2 = new FibonacciHeap();
+//        for (int i = 5; i <10 ; i++) {
+//            h2.insert(i);
+//        }
+//        h1.meld(h2);
+//        FibonacciHeap.HeapNode x = new FibonacciHeap.HeapNode(44);
+//        h1.insert_node(x);
+//        h1.decreaseKey(x,55);
+//        System.out.println(h1.getMin().getKey());
+//        h1.deleteMin();
+//        FibonacciHeap.HeapNode y = h1.getMin().getChild().getChild();
+//
+//        heapPrinter.print(h1,false);
+//
+//        FibonacciHeap h3 = new FibonacciHeap();
+//        for (int i = 55; i <60 ; i++) {
+//            h3.insert(i);
+//        }
+////        h1.meld(h3);
+//        heapPrinter.print(h1,false);
 
-        FibonacciHeap h3 = new FibonacciHeap();
-        for (int i = 55; i <60 ; i++) {
-            h3.insert(i);
+        FibonacciHeap h4 = new FibonacciHeap();
+        for (int i=0;i<9;i++){
+            h4.insert(i);
         }
-        h1.meld(h3);
-        heapPrinter.print(h1,false);
+
+        h4.deleteMin();
+        int [] arr = FibonacciHeap.kMin(h4,4);
+
+        System.out.println(Arrays.toString(arr));
 
 
 

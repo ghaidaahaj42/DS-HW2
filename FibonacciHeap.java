@@ -174,7 +174,8 @@ public class FibonacciHeap
     }
 
     public void linking() {
-        int maxRank= (int) (Math.ceil(Math.log(this.numberOfNodes)/Math.log(1.4404)));
+        int maxRank= (int) (Math.ceil(Math.log(this.numberOfNodes)/Math.log((Math.sqrt(5)+1)/2)));
+        if (maxRank<=0) return;
         HeapNode [] heaps=new HeapNode[maxRank];
         for (int i = 0; i < heaps.length; i++) {
             heaps[i]=null;
@@ -487,19 +488,41 @@ public class FibonacciHeap
     public static int[] kMin(FibonacciHeap H, int k)
     {
 
-        int[] arr = new int[k];
-        if(k==0) return arr;
-        if (H.isEmpty()) return arr;
+        int[] result= new int[k];
+        if(k==0) return result;
+        if (H.isEmpty()) return result;
         FibonacciHeap current = new FibonacciHeap();
         HeapNode node = H.getMin();
-        arr[0]=H.getMin().getKey();
-
-        int i=1;
+        node.setIndex(node);
+        current.insert_node(node);
+//        arr[0]=H.getMin().getKey();
+        int i=0;
         while (i<k){
-            H.insert_node(node.getChild());
+//            current.insert_node(node);
+            if(current.getMin()!=null) {
+                node = current.getMin().getIndex();
+            }
+            result[i] = node.getKey();
+            current.deleteMin();
+            HeapNode child = node.getChild();
+
+
+            if(child!=null) {
+                child.setIndex(child);
+                current.insert_node(child);
+                HeapNode child_next = child.getNext();
+                while (child != child_next) {
+                    child_next.setIndex(child_next);
+                    current.insert_node(child_next);
+                    child_next = child_next.getNext();
+                }
+
+            }
+
+
             i++;
         }
-        return arr; // should be replaced by student code
+        return result; // should be replaced by student code
     }
 
     /**
@@ -603,6 +626,15 @@ public class FibonacciHeap
             this.prev = this;
             this.next = this;
             this.child = null;
+            this.index = null;
+        }
+
+        public void setIndex(HeapNode index) {
+            this.index = index;
+        }
+
+        public HeapNode getIndex() {
+            return index;
         }
 
         public int getKey() {
