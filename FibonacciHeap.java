@@ -42,10 +42,6 @@ public class FibonacciHeap
         this.numOfMarked = numOfMarked;
     }
 
-    public static int getCuts() {
-        return cuts;
-    }
-
     public HeapNode getMin() {
         return min;
     }
@@ -511,7 +507,21 @@ public class FibonacciHeap
             node.getNext().setPrev(node.getPrev());
         }
         parnet.setRank(parnet.getRank()-1);
+        this.numberOfTrees++;
         insert_node(node);
+    }
+    public void casading_cut(HeapNode node,HeapNode parnet){
+        cuts++;
+        cut(node,parnet);
+        if(parnet.getParent()!=null){
+            if(!parnet.getMarked()){
+                parnet.setMark(true);
+                numOfMarked++;
+            }
+            else{
+                casading_cut(parnet,parnet.getParent());
+            }
+        }
     }
 
     public void insert_node(HeapNode node){
@@ -542,19 +552,6 @@ public class FibonacciHeap
         }
     }
 
-    public void casading_cut(HeapNode node,HeapNode parnet){
-        cut(node,parnet);
-        cuts++;
-        if(parnet.getParent()!=null){
-            if(!parnet.getMarked()){
-                parnet.setMark(true);
-                numOfMarked++;
-            }
-            else{
-                casading_cut(parnet,parnet.getParent());
-            }
-        }
-    }
 
 
     /**
@@ -674,11 +671,13 @@ public class FibonacciHeap
         long end = System.currentTimeMillis();
         System.out.println( end-start);
         System.out.println("links");
+
         System.out.println(FibonacciHeap.totalLinks());
         System.out.println("cuts");
         System.out.println(FibonacciHeap.totalCuts());
         System.out.println("potintial");
         System.out.println(h.potential());
+
     }
 
 }
