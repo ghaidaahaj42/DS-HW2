@@ -428,11 +428,9 @@ public class TestFibonacciHeaptesteeeeer {
             nodes.put(key, current);
         }
 
-        if (this.uniqueValues) {
-            assertSame(minNode, heap.findMin());
-        } else {
-            assertEquals(minNode.getKey(), heap.findMin().getKey());
-        }
+
+        assertSame(minNode, heap.findMin());
+
 
         assertEquals(length, heap.potential() - startPotential);
         assertEquals(length, heap.size() - startSize);
@@ -2000,18 +1998,34 @@ public class TestFibonacciHeaptesteeeeer {
 //        }
 ////        h1.meld(h3);
 //        heapPrinter.print(h1,false);
+//
+//        FibonacciHeap h4 = new FibonacciHeap();
+//        for (int i=0;i<9;i++){
+//            h4.insert(i);
+//        }
+//
+//        h4.deleteMin();
+//        int [] arr = FibonacciHeap.kMin(h4,4);
+//
+//        System.out.println(Arrays.toString(arr));
 
-        FibonacciHeap h4 = new FibonacciHeap();
-        for (int i=0;i<9;i++){
-            h4.insert(i);
-        }
-
-        h4.deleteMin();
-        int [] arr = FibonacciHeap.kMin(h4,4);
-
-        System.out.println(Arrays.toString(arr));
-
-
+//        FibonacciHeap h = new FibonacciHeap();
+//
+//        int m = (int)Math.pow(2,5);
+//        long start=System.currentTimeMillis();
+//        List<FibonacciHeap.HeapNode> list = new ArrayList<>();
+//        for (int j=m-1;j>=-1;j--){
+//            list.add(j,h.insert(j));
+//        }
+//        h.deleteMin();
+//        for (int i=5;i>=1;i--){
+//            h.decreaseKey(list.get(i),m+1);
+//        }
+//        long end = System.currentTimeMillis();
+//        System.out.println(start-end);
+//        System.out.println(FibonacciHeap.totalLinks());
+//        System.out.println(FibonacciHeap.totalCuts());
+//        System.out.println(h.potential());
 
     }
 }
