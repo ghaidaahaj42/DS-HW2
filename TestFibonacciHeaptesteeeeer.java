@@ -1973,6 +1973,12 @@ public class TestFibonacciHeaptesteeeeer {
     }
 
     public static void main(String[]args){
+        FibonacciHeap h = new FibonacciHeap();
+        for (int i=0;i<9;i++){
+            h.insert(i);
+        }
+        h.deleteMin();
+        print(h);
 //        FibonacciHeap h1 = new FibonacciHeap();
 //        for (int i = 0; i <5 ; i++) {
 //            h1.insert(i);

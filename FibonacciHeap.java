@@ -221,14 +221,19 @@ public class FibonacciHeap
                 h2.setParent(h1);
                 h2.setPrev(h2);
                 h2.setNext(h2);
+                h1.setNext(h1);
+                h1.setPrev(h1);
                 h1.setRank(h1.getRank() + 1);
                 return h1;
             } else {
                 //h1 and h2 have rank bigger than 0
+                HeapNode tmp = h1.getChild().getPrev();
                 h2.setNext(h1.getChild());
                 h2.setPrev(h1.getChild().getPrev());
                 h1.getChild().setPrev(h2);
+                tmp.setNext(h2);
                 h2.setParent(h1);
+                h1.setChild(h2);
                 h1.setRank(h1.getRank() + 1);
                 return h1;
             }
@@ -241,14 +246,19 @@ public class FibonacciHeap
                 h1.setParent(h2);
                 h1.setPrev(h1);
                 h1.setNext(h1);
+                h2.setNext(h2);
+                h2.setPrev(h2);
                 h2.setRank(h2.getRank() + 1);
                 return h2;
             } else {
                 //h1 and h2 have rank bigger than 0
+                HeapNode tmp = h2.getChild().getPrev();
                 h1.setNext(h2.getChild());
                 h1.setPrev(h2.getChild().getPrev());
                 h2.getChild().setPrev(h1);
+                tmp.setNext(h1);
                 h1.setParent(h2);
+                h2.setChild(h1);
                 h2.setRank(h2.getRank() + 1);
                 return h2;
             }
