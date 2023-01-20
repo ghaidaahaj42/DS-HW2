@@ -1974,7 +1974,10 @@ public class TestFibonacciHeaptesteeeeer {
 
     public static void main(String[]args){
         FibonacciHeap misIsTheNewest = new FibonacciHeap();
-        for (int i=10; i>0; i--) {
+//        for (int i=10; i>0; i--) {
+//            misIsTheNewest.insert(i);
+//        }
+        for (int i=1; i<10; i++) {
             misIsTheNewest.insert(i);
         }
         System.out.println("this is the min node: " + misIsTheNewest.getMin().getKey());

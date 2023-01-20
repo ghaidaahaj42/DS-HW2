@@ -94,7 +94,7 @@ public class FibonacciHeap
     public HeapNode insert(int key)
     {
         HeapNode node = new HeapNode(key);
-        insert_node(node);
+        insert_node(node,false);
         return node; // should be replaced by student code
     }
 
@@ -234,7 +234,7 @@ public class FibonacciHeap
             if (item!=null){
                 this.numberOfTrees++;
                 toreturn.numberOfTrees++;
-                toreturn.insert_node(item);
+                toreturn.insert_node(item,true);
 
             }
         }
@@ -496,7 +496,7 @@ public class FibonacciHeap
         FibonacciHeap current = new FibonacciHeap();
         HeapNode node = H.getMin();
         node.setIndex(node);
-        current.insert_node(node);
+        current.insert_node(node,false);
 //        arr[0]=H.getMin().getKey();
         int i=0;
         while (i<k){
@@ -511,11 +511,11 @@ public class FibonacciHeap
 
             if(child!=null) {
                 child.setIndex(child);
-                current.insert_node(child);
+                current.insert_node(child,false);
                 HeapNode child_next = child.getNext();
                 while (child != child_next) {
                     child_next.setIndex(child_next);
-                    current.insert_node(child_next);
+                    current.insert_node(child_next,false);
                     child_next = child_next.getNext();
                 }
 
@@ -551,7 +551,7 @@ public class FibonacciHeap
             node.getNext().setPrev(node.getPrev());
         }
         parnet.setRank(parnet.getRank()-1);
-        insert_node(node);
+        insert_node(node,false);
     }
 
     public void casading_cut(HeapNode node,HeapNode parnet){
@@ -568,7 +568,7 @@ public class FibonacciHeap
         }
     }
 
-    public void insert_node(HeapNode node){
+    public void insert_node(HeapNode node,boolean linking){
         this.numberOfTrees++;
         this.leftestRoot = node;          ///////////////////me add
         if(this.isEmpty()){
@@ -588,8 +588,9 @@ public class FibonacciHeap
 
             this.getFirst().getPrev().setNext(node);
             this.getFirst().setPrev(node);
-//            this.setFirst(node);
-
+            if(linking==false){
+                this.setFirst(node);
+            }
             this.setNumberOfNodes(this.getNumberOfNodes()+1);
 
         }
