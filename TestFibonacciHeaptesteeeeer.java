@@ -1973,20 +1973,25 @@ public class TestFibonacciHeaptesteeeeer {
     }
 
     public static void main(String[]args){
-        FibonacciHeap misIsTheNewest = new FibonacciHeap();
-//        for (int i=10; i>0; i--) {
+        System.out.println("minIsTheOldest:");
+        FibonacciHeap minIsTheOldest = new FibonacciHeap();
+        for (int i=1; i < 11; i++){
+            minIsTheOldest.insert(5*i);
+        }
+//        for (int i=1; i<10; i++) {
 //            misIsTheNewest.insert(i);
 //        }
-        for (int i=1; i<10; i++) {
-            misIsTheNewest.insert(i);
-        }
-        System.out.println("this is the min node: " + misIsTheNewest.getMin().getKey());
-        System.out.println(misIsTheNewest.getFirst().getKey());
-        print((misIsTheNewest));
+//        heapFromListOfKeys.deleteMin();
+//        heapFromListOfKeys.deleteMin();
+        System.out.println("this is the min node: " + minIsTheOldest.getMin().getKey());
+//        System.out.println("this is the 2nd deletion min");
+        System.out.println(minIsTheOldest.getFirst().getKey());
+        print((minIsTheOldest));
         System.out.println("-------------------------------------------------------------------------------------------------------");
-        misIsTheNewest.deleteMin();
-        System.out.println("this is the min node: " + misIsTheNewest.getMin().getKey());
-        print(misIsTheNewest);
+        minIsTheOldest.deleteMin();
+        System.out.println("this is the 1st deletion min");
+        System.out.println("this is the min node: " + minIsTheOldest.getMin().getKey());
+        print(minIsTheOldest);
 //
 //        misIsTheNewest.deleteMin();
 //        misIsTheNewest.deleteMin();

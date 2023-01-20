@@ -3,7 +3,7 @@ import java.util.HashMap;
 public class FibTester {
     public static void main(String[] args) { // EACH TEST WORKS ALONE
 //        testInsert();
-        testDeleteMin();
+//        testDeleteMin();
 //        testDecreaseKey();
 //        testDelete();
 //        testMeld();
@@ -662,6 +662,7 @@ public class FibTester {
             if (i == 1 && counter[i] != 1){System.out.println("problem with counter 1!!!");}
             if (i != 1 && i != 0 && counter[i] != 2){System.out.println("problem with counter 2,3 !!!");}
         }
+
     }
 
     public static void testDelete(){
