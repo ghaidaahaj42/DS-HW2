@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -17,6 +18,8 @@ public class FibonacciHeap
     public int numberOfTrees;
 
     private static int num_links;
+    HeapNode leftestRoot;
+    HeapNode rightestRoot;
 
     public FibonacciHeap(){
         this.min = null;
@@ -24,6 +27,7 @@ public class FibonacciHeap
         this.numberOfNodes = 0;
         this.numOfMarked = 0;
         this.numberOfTrees=0;
+        this.leftestRoot = null;
     }
 
     public FibonacciHeap(HeapNode min, HeapNode start, int numberOfNodes,int numOfMarked) {
@@ -102,6 +106,12 @@ public class FibonacciHeap
      */
     public void deleteMin() {
         if (this.getMin() == null) return;
+        if(this.getMin()== this.leftestRoot){                 ///////me add
+            leftestRoot = getMin().getNext();                 //////// me add
+        }
+        if(this.getMin()==this.rightestRoot){            //// me add
+            rightestRoot = getMin().getPrev();               /// me add
+        }
         // if the min have children
         if (this.getMin().getChild() != null) {
             HeapNode curr = this.getMin();
@@ -109,19 +119,32 @@ public class FibonacciHeap
             if (curr.getNext() == curr) {
                 this.setFirst(curr.getChild());
 //                this.setMin(curr.getChild());
+                HeapNode ch = curr.getChild().getNext();
                 curr.getChild().setParent(null);
+                while (ch != curr.getChild()) {
+                    ch.setParent(null);
+                    ch = ch.getNext();
+                }
                 curr.setChild(null);
                 this.numberOfNodes = numberOfNodes - 1;
             } else {
                 // if the min have brothers
-                this.setFirst(curr.getChild());
+                if(this.getMin()==this.getFirst()){
+                    this.setFirst(curr.getChild());
+                }
+//                this.setFirst(curr.getChild());
+
                 curr.getPrev().setNext(curr.getChild());
                 HeapNode ch = curr.getChild().getNext();
+                curr.getChild().setParent(null);
                 while (ch != curr.getChild()) {
-                    ch = curr.getNext();
                     ch.setParent(null);
+                    ch = ch.getNext();
                 }
-                curr.getNext().setPrev(ch);
+
+                curr.getNext().setPrev(ch.getPrev());
+                ch.getPrev().setNext(curr.getNext());
+                ch.setPrev(curr.getPrev());
 //                this.setMin(ch);
                 this.numberOfNodes = numberOfNodes - 1;
             }
@@ -164,6 +187,10 @@ public class FibonacciHeap
             second = second.getNext();
         }
 
+        this.leftestRoot = this.getFirst();                          //// me add
+        this.rightestRoot = this.getFirst().getPrev();                 ///// me add
+//        this.setFirst(this.getMin());
+
     }
 
     public void linking() {
@@ -190,7 +217,7 @@ public class FibonacciHeap
                 HeapNode afterLink=linkOnce(current,heaps[index]);
 //                num_links +=1;
                 heaps[index]=null;
-                while(index < heaps.length-1 && heaps[index+1]!=null){
+                while(index+1 < heaps.length-1 && heaps[index+1]!=null){
                     afterLink=linkOnce(afterLink,heaps[index+1]);
 //                    num_links +=1;
                     heaps[afterLink.getRank()-1]=null;
@@ -200,16 +227,21 @@ public class FibonacciHeap
 
             }
         }
+
         FibonacciHeap toreturn = new FibonacciHeap();
         this.numberOfTrees=0;
         for (HeapNode item:heaps) {
             if (item!=null){
                 this.numberOfTrees++;
+                toreturn.numberOfTrees++;
                 toreturn.insert_node(item);
 
             }
         }
+
         this.setFirst(toreturn.getFirst());
+        this.rightestRoot=this.getFirst().getPrev();                 ///////me add
+        this.leftestRoot=this.getFirst();                           ///////// me add
 
     }
     public HeapNode linkOnce(HeapNode h1,HeapNode h2) {
@@ -506,7 +538,9 @@ public class FibonacciHeap
      */
 
     public void cut(HeapNode node, HeapNode parnet){
-
+        if(node.getMarked()){
+            numOfMarked--;
+        }
         node.setMark(false);
         node.setParent(null);
         if(node.getNext()==node){
@@ -517,9 +551,9 @@ public class FibonacciHeap
             node.getNext().setPrev(node.getPrev());
         }
         parnet.setRank(parnet.getRank()-1);
-        this.numberOfTrees++;
         insert_node(node);
     }
+
     public void casading_cut(HeapNode node,HeapNode parnet){
         cuts++;
         cut(node,parnet);
@@ -536,12 +570,14 @@ public class FibonacciHeap
 
     public void insert_node(HeapNode node){
         this.numberOfTrees++;
+        this.leftestRoot = node;          ///////////////////me add
         if(this.isEmpty()){
             this.setMin(node);
             this.setFirst(node);
             this.getFirst().setNext(this.getFirst());
             this.getFirst().setPrev(this.getFirst());
             this.setNumberOfNodes(1);
+            this.rightestRoot = node;        ///////////////////me add
         }
 
         else{
@@ -552,7 +588,7 @@ public class FibonacciHeap
 
             this.getFirst().getPrev().setNext(node);
             this.getFirst().setPrev(node);
-
+//            this.setFirst(node);
 
             this.setNumberOfNodes(this.getNumberOfNodes()+1);
 
@@ -600,6 +636,10 @@ public class FibonacciHeap
 
         public HeapNode getIndex() {
             return index;
+        }
+
+        public boolean getMark() {
+            return mark;
         }
 
         public int getKey() {
@@ -662,32 +702,35 @@ public class FibonacciHeap
     }
 
     public static void main(String[] args) {
+//        FibonacciHeap h = new FibonacciHeap();
         FibonacciHeap h = new FibonacciHeap();
+        int i =10;
+        int m =(int) Math.pow(2,i);
+        ArrayList<HeapNode> nodeArr= new ArrayList<>(m+1);
 
-        int m = (int)Math.pow(2,10);
-        System.out.println(m);
-        long start=System.currentTimeMillis();
-        FibonacciHeap.HeapNode []arr = new FibonacciHeap.HeapNode[m+1];
-
-        for (int j=m-1;j>=-1;j--){
-            FibonacciHeap.HeapNode node=h.insert(j);
-            arr[j+1]=node;
+        for (int j = 0; j <m+1 ; j++) {
+            nodeArr.add(null);
         }
-
+        for (int j = m-1; j >=0 ; j--) {
+            nodeArr.set(j,h.insert(j));
+        }
+        h.insert(-1);
         h.deleteMin();
-        for (int i=10;i>0;i--){
-            h.decreaseKey(arr[i],m+1);
+        for (int j = i; j >0 ; j--) {
+            h.decreaseKey(nodeArr.get((int)(m+1-Math.pow(2,j))),m+1);
         }
-        long end = System.currentTimeMillis();
-        System.out.println( end-start);
-        System.out.println("links");
+        h.decreaseKey(nodeArr.get((int)(m-2)),m+1);
 
+        System.out.println("LINKS");
         System.out.println(FibonacciHeap.totalLinks());
         System.out.println("cuts");
         System.out.println(FibonacciHeap.totalCuts());
         System.out.println("potintial");
         System.out.println(h.potential());
-
+        System.out.println("Trees");
+        System.out.println(h.numberOfTrees);
+        System.out.println(h.numOfMarked);
     }
+
 
 }

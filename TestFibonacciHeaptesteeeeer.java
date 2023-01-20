@@ -1973,65 +1973,19 @@ public class TestFibonacciHeaptesteeeeer {
     }
 
     public static void main(String[]args){
-        FibonacciHeap h = new FibonacciHeap();
-        for (int i=0;i<9;i++){
-            h.insert(i);
+        FibonacciHeap misIsTheNewest = new FibonacciHeap();
+        for (int i=10; i>0; i--) {
+            misIsTheNewest.insert(i);
         }
-        h.deleteMin();
-        print(h);
-//        FibonacciHeap h1 = new FibonacciHeap();
-//        for (int i = 0; i <5 ; i++) {
-//            h1.insert(i);
-//        }
-//        heapPrinter.print(h1,false);
-//        FibonacciHeap h2 = new FibonacciHeap();
-//        for (int i = 5; i <10 ; i++) {
-//            h2.insert(i);
-//        }
-//        h1.meld(h2);
-//        FibonacciHeap.HeapNode x = new FibonacciHeap.HeapNode(44);
-//        h1.insert_node(x);
-//        h1.decreaseKey(x,55);
-//        System.out.println(h1.getMin().getKey());
-//        h1.deleteMin();
-//        FibonacciHeap.HeapNode y = h1.getMin().getChild().getChild();
+        System.out.println("this is the min node: " + misIsTheNewest.getMin().getKey());
+        System.out.println(misIsTheNewest.getFirst().getKey());
+        print((misIsTheNewest));
+        System.out.println("-------------------------------------------------------------------------------------------------------");
+        misIsTheNewest.deleteMin();
+        System.out.println("this is the min node: " + misIsTheNewest.getMin().getKey());
+        print(misIsTheNewest);
 //
-//        heapPrinter.print(h1,false);
-//
-//        FibonacciHeap h3 = new FibonacciHeap();
-//        for (int i = 55; i <60 ; i++) {
-//            h3.insert(i);
-//        }
-////        h1.meld(h3);
-//        heapPrinter.print(h1,false);
-//
-//        FibonacciHeap h4 = new FibonacciHeap();
-//        for (int i=0;i<9;i++){
-//            h4.insert(i);
-//        }
-//
-//        h4.deleteMin();
-//        int [] arr = FibonacciHeap.kMin(h4,4);
-//
-//        System.out.println(Arrays.toString(arr));
-
-//        FibonacciHeap h = new FibonacciHeap();
-//
-//        int m = (int)Math.pow(2,5);
-//        long start=System.currentTimeMillis();
-//        List<FibonacciHeap.HeapNode> list = new ArrayList<>();
-//        for (int j=m-1;j>=-1;j--){
-//            list.add(j,h.insert(j));
-//        }
-//        h.deleteMin();
-//        for (int i=5;i>=1;i--){
-//            h.decreaseKey(list.get(i),m+1);
-//        }
-//        long end = System.currentTimeMillis();
-//        System.out.println(start-end);
-//        System.out.println(FibonacciHeap.totalLinks());
-//        System.out.println(FibonacciHeap.totalCuts());
-//        System.out.println(h.potential());
-
+//        misIsTheNewest.deleteMin();
+//        misIsTheNewest.deleteMin();
     }
 }
