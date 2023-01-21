@@ -379,6 +379,10 @@ public class FibonacciHeap
      */
     public int[] countersRep()
     {
+        if(this.isEmpty()){
+            int[] arr = new int[0];
+            return arr;
+        }
         int[] arr = new int[(int) Math.ceil((Math.log(this.numberOfNodes))/Math.log(2))+1];
         if(this.isEmpty()) return arr;
         HeapNode current=this.getFirst();
