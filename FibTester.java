@@ -7,7 +7,7 @@ public class FibTester {
 //        testDecreaseKey();
 //        testDelete();
 //        testMeld();
-//        q2();
+        q2();
     }
 
     public static void q2() {

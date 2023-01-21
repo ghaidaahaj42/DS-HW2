@@ -208,15 +208,16 @@ public class FibonacciHeap
     public void linking() {
 //        int maxRank= (int) (Math.ceil(Math.log(this.numberOfNodes)/Math.log((Math.sqrt(5)+1)/2)));
         int maxRank =this.numberOfNodes+1;
+        int maxRank_AfterLinking= (int) (Math.log(maxRank)/Math.log(2)) +1;
+
         if (maxRank<=0) return;
-        HeapNode [] heaps=new HeapNode[maxRank];
+        HeapNode [] heaps=new HeapNode[maxRank_AfterLinking];
         for (int i = 0; i < heaps.length; i++) {
             heaps[i]=null;
         }
 
         HeapNode second =this.getFirst().getNext();
         heaps[this.getFirst().getRank()]=this.getFirst();
-
         while (this.getFirst()!=second){
             HeapNode current =second;
             if(heaps[current.getRank()]==null){
@@ -259,7 +260,7 @@ public class FibonacciHeap
         this.leftestRoot=this.getFirst();                           ///////// me add
 
     }
-    public HeapNode linkOnce(HeapNode h1,HeapNode h2) {
+    public HeapNode linkOnce(HeapNode h1,HeapNode h2) {   ///O(1)
         num_links +=1;
         if (h1.getKey() < h2.getKey()) {
             //h1 and h2 have rank 0
