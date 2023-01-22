@@ -17,12 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -32,7 +27,6 @@ import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -154,7 +148,7 @@ class HeapPrinter {
         String title = String.format(" Key: %d ", heapNode.getKey());
         List<String> content = Arrays.asList(
                 String.format(" Rank: %d ", heapNode.getRank()),
-                String.format(" Marked: %b ", heapNode.getMarked()),
+                String.format(" Marked: %b ", heapNode.getMark()),
                 String.format(" Parent: %s ", keyify.apply(heapNode::getParent)),
                 String.format(" Next: %s ", keyify.apply(heapNode::getNext)),
                 String.format(" Prev: %s ", keyify.apply(heapNode::getPrev)),
@@ -271,7 +265,7 @@ public class TestFibonacciHeaptesteeeeer {
         do {
             numberOfTrees++;
             assertNull(node.getParent());
-            assertFalse(node.getMarked());
+            assertFalse(node.getMark());
             if (node.getKey() < actualMin.getKey()) {
                 actualMin = node;
             }
@@ -374,7 +368,7 @@ public class TestFibonacciHeaptesteeeeer {
             // Check current node
             actualSize++;
             stack.push(node.getNext());
-            numberOfMarked += node.getMarked() ? 1 : 0;
+            numberOfMarked += node.getMark() ? 1 : 0;
 
             assertValidHeapNodeChildren(node);
 
@@ -1933,7 +1927,7 @@ public class TestFibonacciHeaptesteeeeer {
         FibonacciHeap.HeapNode node = heap.getFirst();
         while (node != null) {
             assertTrue(node.getChild() != null ? node.getRank() == 1 : node.getRank() == 0);
-            assertEquals(node.getParent() != null, node.getMarked());
+            assertEquals(node.getParent() != null, node.getMark());
             node = node.getChild();
         }
 
