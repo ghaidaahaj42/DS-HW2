@@ -818,31 +818,4 @@ public class FibonacciHeap
         }
 
     }
-
-    public static void main(String[] args) {
-
-        FibonacciHeap H = new FibonacciHeap();
-        int j = 20;
-        int m = (int) Math.pow(2, j);
-        FibonacciHeap.HeapNode[] pointer_arr = new FibonacciHeap.HeapNode[m];
-        for (int k = m-1; k > -2; k--){
-            FibonacciHeap.HeapNode newNode = H.insert(k);
-            if (k != -1){                                       //save pointer to all nodes 0 - m-1
-                pointer_arr[k] = newNode;
-            }
-        }
-        H.deleteMin();
-        for (int i = j; i > 0; i--){
-            int c = (int) Math.pow(2, i);
-            H.decreaseKey(pointer_arr[m-c+1], m+1);
-        }
-        System.out.print("totallinks: ");
-        System.out.println(FibonacciHeap.totalLinks());
-        System.out.print("totalcuts: ");
-        System.out.println(FibonacciHeap.totalCuts());
-        System.out.print("potential: ");
-        System.out.println(H.potential());
-    }
-
-
 }
